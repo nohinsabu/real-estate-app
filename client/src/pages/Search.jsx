@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import ListingItem from '../components/ListingItem';
 
 export default function Search() {
 
@@ -32,12 +33,12 @@ export default function Search() {
             setSidebardata({
                 searchTerm: searchTermFromUrl || '',
                 type: typeFromUrl || 'all',
-                parking: parkingFromUrl === 'true'? true: false,
-                furnished: furnishedFromUrl === 'true'? true: false,
-                offer: offerFromUrl === 'true'? true: false,
+                parking: parkingFromUrl === 'true' ? true : false,
+                furnished: furnishedFromUrl === 'true' ? true : false,
+                offer: offerFromUrl === 'true' ? true : false,
                 sort: sortFromUrl || 'created_at',
                 order: orderFromUrl || 'desc',
-            })
+              });
         }
 
     const fetchListings = async () => {
@@ -85,7 +86,7 @@ export default function Search() {
     urlParams.set('order', sidebardata.order);
     const searchQuery = urlParams.toString();
     navigate(`/search?${searchQuery}`);
-  }
+  };
 
   return (
     <div className="flex flex-col md:flex-row">
@@ -151,9 +152,20 @@ export default function Search() {
                 uppercase hover:opacity-95 p-3 rounded-lg'>Search</button>
             </form>
       </div>
-      <div className="">
+      <div className="flex-1">
         <h1 className='text-3xl font-semibold text-slate-700
         border-b p-3 mt-5 '>Listing results:</h1>
+        <div className="p-7 flex flex-wrap gap-4">
+            {!loading && listings.length === 0 && (
+                <p className='text-slate-700 text-xl'>No listing found!</p>
+            )}
+            {loading && (
+                <p className='text-xl text-slate-700 w-full text-center'>Loading...</p>
+            )}
+            {!loading && listings && listings.map((listing) => (
+                <ListingItem key={listings._id} listing={listing}/>
+            ))}
+        </div>
       </div>
     </div>
   )
