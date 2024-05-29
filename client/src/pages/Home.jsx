@@ -11,7 +11,7 @@ export default function Home() {
   const [offerListings, setOfferListings] = useState([]);
   const [saleListings, setSaleListings] = useState([]);
   const [rentListings, setRentListings] = useState([]);
-  console.log(offerListings);
+  SwiperCore.use([Navigation]);
 
   useEffect(() => {
     const fetchOfferListings = async () => {
@@ -29,8 +29,8 @@ export default function Home() {
       try {
         const res = await fetch(`/api/listing/get?type=rent&limit=4`);
         const data = await res.json();
-        setRentListings(data)
-        fetchSaleListings()
+        setRentListings(data);
+        fetchSaleListings();
       } catch (error) {
         console.log(error);
       }
@@ -83,7 +83,7 @@ export default function Home() {
                   background: `url(${listing.imageUrls[0]}) center no-repeat`,
                   backgroundSize: 'cover',
                 }}
-                className='h-[400px]'
+                className='h-[450px]'
                 key={listing._id}
               ></div>
             </SwiperSlide>
